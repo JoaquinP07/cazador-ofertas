@@ -14,16 +14,10 @@ UA = (
 )
 
 URLS = {
-    "zt_js": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?js=1&pag=2",
-    "zt_pagina": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets/pag-2",
-    "zt_page": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?page=2",
-    "zt_p": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?p=2",
-    "zt_catalogo": "https://www.zonatecno.com.uy/catalogo?pag=2",
-    "tata_pagedata": "https://www.tata.com.uy/page-data/multiahorro/page-data.json",
-    "tata_electro": "https://www.tata.com.uy/electrodomesticos",
-    "tata_tv": "https://www.tata.com.uy/s?q=televisor",
-    "devoto_tv": "https://www.devoto.com.uy/products/category/tv-y-audio/20",
-    "devoto_tv_p2": "https://www.devoto.com.uy/products/category/tv-y-audio/20?page=2",
+    "tata_stable": "https://tatauy.vtexcommercestable.com.br/api/catalog_system/pub/products/search?ft=televisor&_from=0&_to=1",
+    "tata_tree": "https://tatauy.vtexcommercestable.com.br/api/catalog_system/pub/category/tree/3",
+    "tata_myvtex_is": "https://tatauy.myvtex.com/api/io/_v/api/intelligent-search/product_search/?query=televisor&count=2",
+    "tata_graphql": "https://www.tata.com.uy/api/graphql?operationName=ProductsQuery&variables=%7B%22first%22%3A2%2C%22after%22%3A%220%22%2C%22sort%22%3A%22score_desc%22%2C%22term%22%3A%22televisor%22%2C%22selectedFacets%22%3A%5B%5D%7D",
 }
 _VIEJAS = {
     "tiendainglesa_home": "https://www.tiendainglesa.com.uy/",
