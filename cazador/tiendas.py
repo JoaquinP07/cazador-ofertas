@@ -270,13 +270,15 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
         "Multiahorro / Tata",
         "https://www.tata.com.uy",
         [
-            "electrodomesticos",
+            "electrodomesticos-y-aires-ac-",
+            "pequenos-electrodomesticos",
+            "climatizacion",
+            "smart-tv-y-audio",
             "electronica-audio-y-video",
             "tecnologia",
-            "celulares-y-telefonia",
             "computacion",
+            "celulares-y-telefonia",
             "consolas-y-videojuegos",
-            "camaras-y-accesorios",
         ],
     ),
     "Devoto": lambda: devoto(
