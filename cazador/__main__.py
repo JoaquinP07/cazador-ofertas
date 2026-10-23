@@ -14,7 +14,7 @@ import traceback
 
 from . import telegram
 from .nucleo import Historial, fmt
-from .tiendas import TIENDAS
+from .tiendas import DETALLE, TIENDAS
 
 HISTORIAL = pathlib.Path("estado/historial.json")
 
@@ -54,7 +54,7 @@ def main() -> int:
         rep = pathlib.Path("reporte")
         rep.mkdir(exist_ok=True)
         (rep / "resumen.json").write_text(
-            json.dumps({"tiendas": resumen, "duracion_s": round(duracion), "historial": len(hist.datos)},
+            json.dumps({"tiendas": resumen, "duracion_s": round(duracion), "historial": len(hist.datos), "detalle": DETALLE},
                        ensure_ascii=False, indent=2), encoding="utf-8")
         (rep / "muestras.json").write_text(json.dumps(muestras, ensure_ascii=False, indent=1), encoding="utf-8")
         lineas = "\n".join(f"• {k}: {v}" for k, v in resumen.items())

@@ -15,6 +15,14 @@ UA = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/129.0 Safari/537.36"
 )
+DETALLE: list[str] = []  # notas por categoría, para el reporte de prueba
+
+
+def nota(txt: str) -> None:
+    print(txt)
+    DETALLE.append(txt)
+
+
 SES = requests.Session()
 SES.headers.update({"User-Agent": UA, "Accept-Language": "es-UY,es;q=0.9"})
 
@@ -92,7 +100,7 @@ def fenicio(tienda: str, base: str, categorias: Iterable[str], max_paginas: int 
             url = f"{base}/{cat}?js=1&pag={pag}"
             r = _get(url)
             if r.status_code != 200:
-                print(f"  [{tienda}] {cat} pág {pag}: HTTP {r.status_code}")
+                nota(f"  [{tienda}] {cat} pág {pag}: HTTP {r.status_code}")
                 break
             if total is None:
                 t = re.search(r'data-total="(\d+)"', r.text)
@@ -104,7 +112,7 @@ def fenicio(tienda: str, base: str, categorias: Iterable[str], max_paginas: int 
                 vistos[p.clave] = p
             if pag * 12 >= (total or 0):
                 break
-        print(f"  [{tienda}] {cat}: {total} declarados")
+        nota(f"  [{tienda}] {cat}: {total} declarados")
     return list(vistos.values())
 
 
@@ -114,7 +122,7 @@ def shopify(tienda: str, base: str, moneda_tienda: str = "UYU") -> list[Producto
     for pag in range(1, 60):
         r = _get(f"{base}/products.json?limit=250&page={pag}")
         if r.status_code != 200:
-            print(f"  [{tienda}] pág {pag}: HTTP {r.status_code}")
+            nota(f"  [{tienda}] pág {pag}: HTTP {r.status_code}")
             break
         lote = r.json().get("products", [])
         if not lote:
@@ -159,12 +167,12 @@ def faststore(tienda: str, base: str, categorias: Iterable[str]) -> list[Product
                 params={"operationName": "ProductsQuery", "variables": json.dumps(variables)},
             )
             if r.status_code != 200:
-                print(f"  [{tienda}] {cat}: HTTP {r.status_code}")
+                nota(f"  [{tienda}] {cat}: HTTP {r.status_code}")
                 break
             try:
                 datos = r.json()["data"]["search"]["products"]
             except (ValueError, KeyError, TypeError):
-                print(f"  [{tienda}] {cat}: respuesta inesperada {r.text[:200]}")
+                nota(f"  [{tienda}] {cat}: respuesta inesperada {r.text[:200]}")
                 break
             total = datos["pageInfo"]["totalCount"]
             for e in datos["edges"]:
@@ -184,7 +192,7 @@ def faststore(tienda: str, base: str, categorias: Iterable[str]) -> list[Product
             after += 50
             if after >= total or not datos["edges"] or after >= 3000:
                 break
-        print(f"  [{tienda}] {cat}: {total} declarados")
+        nota(f"  [{tienda}] {cat}: {total} declarados")
     return list(vistos.values())
 
 
@@ -201,7 +209,7 @@ def devoto(tienda: str, categorias: Iterable[str]) -> list[Producto]:
     for cat in categorias:
         r = _get(f"https://www.devoto.com.uy/products/category/{cat}")
         if r.status_code != 200:
-            print(f"  [{tienda}] {cat}: HTTP {r.status_code}")
+            nota(f"  [{tienda}] {cat}: HTTP {r.status_code}")
             continue
         n = 0
         for m in _DEV_ITEM.finditer(r.text):
@@ -216,7 +224,7 @@ def devoto(tienda: str, categorias: Iterable[str]) -> list[Producto]:
             )
             vistos.setdefault(p.clave, p)
             n += 1
-        print(f"  [{tienda}] {cat}: {n} leídos")
+        nota(f"  [{tienda}] {cat}: {n} leídos")
     return list(vistos.values())
 
 
