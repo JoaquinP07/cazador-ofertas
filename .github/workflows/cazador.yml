@@ -2,7 +2,7 @@ name: Cazador de ofertas
 
 on:
   schedule:
-    - cron: "*/10 * * * *"   # cada 10 minutos (GitHub puede demorar algunos minutos más)
+    - cron: "3-59/10 * * * *"   # cada 10 minutos (GitHub puede demorar algunos minutos más)
   workflow_dispatch:
     inputs:
       prueba:
