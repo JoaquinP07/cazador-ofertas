@@ -7,6 +7,9 @@ on:
       - sondeo.py
       - .github/workflows/sondeo.yml
 
+permissions:
+  contents: write
+
 jobs:
   sondeo:
     runs-on: ubuntu-latest
@@ -18,8 +21,11 @@ jobs:
           python-version: "3.12"
       - run: pip install requests
       - run: python sondeo.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: sondeo
-          path: sondeo/
-          retention-days: 3
+      - name: Guardar resultados en la rama "sondeo-resultados"
+        run: |
+          cd sondeo
+          git init -q -b sondeo-resultados
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add -A && git commit -qm "Resultados del sondeo"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" sondeo-resultados
