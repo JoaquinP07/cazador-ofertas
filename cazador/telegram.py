@@ -6,14 +6,18 @@ import os
 
 import requests
 
+ULTIMO_ERROR = ""
+
 from .nucleo import Producto, fmt
 
 
 def enviar(texto: str) -> bool:
+    global ULTIMO_ERROR
     token = os.environ.get("TELEGRAM_TOKEN")
     chat = os.environ.get("TELEGRAM_CHAT_ID")
     if not token or not chat:
-        print("[telegram] faltan TELEGRAM_TOKEN / TELEGRAM_CHAT_ID; mensaje no enviado:\n" + texto)
+        ULTIMO_ERROR = "faltan TELEGRAM_TOKEN / TELEGRAM_CHAT_ID"
+        print("[telegram] " + ULTIMO_ERROR + "; mensaje no enviado:\n" + texto)
         return False
     r = requests.post(
         f"https://api.telegram.org/bot{token}/sendMessage",
@@ -26,7 +30,8 @@ def enviar(texto: str) -> bool:
         timeout=20,
     )
     if not r.ok:
-        print("[telegram] error", r.status_code, r.text[:300])
+        ULTIMO_ERROR = f"{r.status_code} {r.text[:300]}"
+        print("[telegram] error", ULTIMO_ERROR)
     return r.ok
 
 

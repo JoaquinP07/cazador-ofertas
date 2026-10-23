@@ -51,14 +51,15 @@ def main() -> int:
     print(f"Listo en {duracion:.0f}s · {len(hist.datos)} productos en historial · {avisos} avisos")
 
     if prueba:
+        lineas = "\n".join(f"• {k}: {v}" for k, v in resumen.items())
+        ok = telegram.enviar(f"✅ <b>Cazador de ofertas conectado</b>\nRevisión de prueba:\n{lineas}")
         rep = pathlib.Path("reporte")
         rep.mkdir(exist_ok=True)
         (rep / "resumen.json").write_text(
-            json.dumps({"tiendas": resumen, "duracion_s": round(duracion), "historial": len(hist.datos), "detalle": DETALLE},
+            json.dumps({"tiendas": resumen, "duracion_s": round(duracion), "historial": len(hist.datos),
+                        "telegram": "enviado" if ok else telegram.ULTIMO_ERROR, "detalle": DETALLE},
                        ensure_ascii=False, indent=2), encoding="utf-8")
         (rep / "muestras.json").write_text(json.dumps(muestras, ensure_ascii=False, indent=1), encoding="utf-8")
-        lineas = "\n".join(f"• {k}: {v}" for k, v in resumen.items())
-        telegram.enviar(f"✅ <b>Cazador de ofertas conectado</b>\nRevisión de prueba:\n{lineas}")
     return 0
 
 
