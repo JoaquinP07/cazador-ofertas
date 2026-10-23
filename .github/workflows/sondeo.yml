@@ -1,0 +1,25 @@
+name: Sondeo de tiendas
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - sondeo.py
+      - .github/workflows/sondeo.yml
+
+jobs:
+  sondeo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - run: python sondeo.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sondeo
+          path: sondeo/
+          retention-days: 3
