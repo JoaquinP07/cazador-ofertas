@@ -14,10 +14,7 @@ UA = (
 )
 
 URLS = {
-    "tata_stable": "https://tatauy.vtexcommercestable.com.br/api/catalog_system/pub/products/search?ft=televisor&_from=0&_to=1",
-    "tata_tree": "https://tatauy.vtexcommercestable.com.br/api/catalog_system/pub/category/tree/3",
-    "tata_myvtex_is": "https://tatauy.myvtex.com/api/io/_v/api/intelligent-search/product_search/?query=televisor&count=2",
-    "tata_graphql": "https://www.tata.com.uy/api/graphql?operationName=ProductsQuery&variables=%7B%22first%22%3A2%2C%22after%22%3A%220%22%2C%22sort%22%3A%22score_desc%22%2C%22term%22%3A%22televisor%22%2C%22selectedFacets%22%3A%5B%5D%7D",
+    "tata_tree1": "https://tatauy.vtexcommercestable.com.br/api/catalog_system/pub/category/tree/2",
 }
 _VIEJAS = {
     "tiendainglesa_home": "https://www.tiendainglesa.com.uy/",
@@ -67,7 +64,7 @@ for nombre, url in URLS.items():
         else:
             r = s.get(url, timeout=30, allow_redirects=True)
         texto = r.text
-        (out / f"{nombre}.txt").write_text(texto[:400_000], encoding="utf-8")
+        (out / f"{nombre}.txt").write_text(texto[:3_000_000], encoding="utf-8")
         resumen[nombre] = {
             "status": r.status_code,
             "url_final": r.url,
