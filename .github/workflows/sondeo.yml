@@ -1,0 +1,18 @@
+name: Sondeo de tiendas
+on:
+  push:
+    paths: [sondeo.py, .github/workflows/sondeo.yml]
+permissions:
+  contents: write
+jobs:
+  sondeo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install requests && python sondeo.py
+      - run: |
+          cd sondeo && git init -q -b sondeo-resultados
+          git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          git add -A && git commit -qm sondeo
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" sondeo-resultados
