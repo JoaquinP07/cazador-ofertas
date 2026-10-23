@@ -228,8 +228,52 @@ def devoto(tienda: str, categorias: Iterable[str]) -> list[Producto]:
     return list(vistos.values())
 
 
+# ---------------------------------------------------------------- Loi (feed público oficial, límite 100 pedidos/min)
+# El filtro por categoría del feed no funciona, así que se trae todo y se descartan rubros ajenos.
+_LOI_EXCLUIR = re.compile(
+    r"perfum|fragan|maquill|belleza|cosm[eé]t|crema|cabello|piel|u[ñn]as|ropa|moda|calzado|"
+    r"zapat|cartera|bolso|mochila|bijou|joya|beb[eé]|juguet|lencer|pijama|remera|buzo|campera",
+    re.I,
+)
+
+
+def loi(tienda: str) -> list[Producto]:
+    prods: list[Producto] = []
+    pag, paginas, descartados = 1, 1, 0
+    while pag <= paginas and pag <= 80:
+        r = _get(f"https://loi.com.uy/api/v1/products.json?per_page=100&page={pag}")
+        if r.status_code != 200:
+            nota(f"  [{tienda}] pág {pag}: HTTP {r.status_code}")
+            break
+        d = r.json()
+        paginas = d.get("total_pages") or 0
+        for p in d.get("products", []):
+            cats = " ".join(c.get("name", "") + " " + c.get("slug", "") for c in p.get("category_hierarchy") or [])
+            if _LOI_EXCLUIR.search(cats):
+                descartados += 1
+                continue
+            precio = p.get("price") or {}
+            prods.append(
+                Producto(
+                    tienda=tienda,
+                    id=str(p["id"]),
+                    nombre=p["title"],
+                    precio=float(precio.get("amount") or 0),
+                    moneda="USD" if precio.get("currency") == "USD" else "UYU",
+                    url=p["url"],
+                    precio_lista=float(precio["original_amount"]) if precio.get("original_amount") else None,
+                    disponible=p.get("availability") == "in_stock",
+                )
+            )
+        pag += 1
+        time.sleep(0.7)  # respeta el límite de 100 pedidos por minuto
+    nota(f"  [{tienda}] {len(prods)} leídos, {descartados} de otros rubros descartados")
+    return prods
+
+
 # ---------------------------------------------------------------- Configuración
 TIENDAS: dict[str, Callable[[], list[Producto]]] = {
+    "Loi": lambda: loi("Loi"),
     "ZonaTecno": lambda: fenicio(
         "ZonaTecno",
         "https://www.zonatecno.com.uy",

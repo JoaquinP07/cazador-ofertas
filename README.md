@@ -10,6 +10,7 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 | AMV Store | Tecnología y electrodomésticos (~1.700) |
 | Tienda Soy Santander | Electro, tecnología, gaming, TV (~1.800) |
 | Cover Company | Catálogo completo (~3.800) |
+| Loi | Todo menos belleza, moda y bebés (feed oficial) |
 | Multiahorro / Tata | Electrodomésticos y electrónica (~440) |
 | Devoto | Solo los 12 primeros de cada categoría (la web no deja ver más sin navegador) |
 | Tienda Inglesa | ❌ bloquea las conexiones desde GitHub |

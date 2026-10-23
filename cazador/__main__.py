@@ -22,7 +22,7 @@ HISTORIAL = pathlib.Path("estado/historial.json")
 def main() -> int:
     prueba = "--prueba" in sys.argv
     hist = Historial(HISTORIAL)
-    primera_vez = not hist.datos
+    tiendas_conocidas = {k.split(":", 1)[0] for k in hist.datos}
     resumen, muestras, avisos = {}, {}, 0
     inicio = time.time()
 
@@ -38,8 +38,8 @@ def main() -> int:
         muestras[nombre] = [p.__dict__ for p in prods[:15]]
         for p in prods:
             motivo = hist.evaluar(p)
-            # En la primera corrida no hay historial: solo se aprende, no se avisa.
-            if motivo and not primera_vez:
+            # Una tienda sin historial todavía (recién agregada) solo aprende, no avisa.
+            if motivo and nombre in tiendas_conocidas:
                 avisos += 1
                 print("AVISO:", p.tienda, p.nombre, fmt(p.precio, p.moneda), motivo)
                 telegram.enviar(telegram.aviso(p, motivo))
