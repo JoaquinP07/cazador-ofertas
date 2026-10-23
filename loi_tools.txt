@@ -1,0 +1,134 @@
+{
+    "schema_version": "1.0",
+    "provider": {
+        "name": "La Oferta Irresistible",
+        "url": "https://loi.com.uy",
+        "description": "Somos la Oferta Irresistible, las mejores ofertas al mejor precio de las mejores marcas y con los envíos más rápidos en tiempo récord."
+    },
+    "tools": [
+        {
+            "type": "function",
+            "function": {
+                "name": "loi_search_products",
+                "description": "Search LOi e-commerce catalog. LOi is a leading e-commerce in Uruguay selling electronics, beauty, fashion, and home products. Returns real-time product data with prices in UYU, USD.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "Search terms in Spanish"
+                        },
+                        "category": {
+                            "type": "string",
+                            "description": "Category slug filter (e.g. tecnologia, belleza, hogar)"
+                        },
+                        "brand": {
+                            "type": "string",
+                            "description": "Brand name filter (e.g. samsung, apple, loreal)"
+                        },
+                        "max_price": {
+                            "type": "number",
+                            "description": "Maximum price in UYU, USD"
+                        },
+                        "min_price": {
+                            "type": "number",
+                            "description": "Minimum price in UYU, USD"
+                        },
+                        "in_stock_only": {
+                            "type": "boolean",
+                            "default": true,
+                            "description": "Only return products currently in stock"
+                        },
+                        "sort_by": {
+                            "type": "string",
+                            "enum": [
+                                "relevance",
+                                "price_asc",
+                                "price_desc",
+                                "rating",
+                                "newest"
+                            ],
+                            "description": "Sort order for results"
+                        },
+                        "page": {
+                            "type": "integer",
+                            "default": 1,
+                            "description": "Page number for pagination"
+                        },
+                        "per_page": {
+                            "type": "integer",
+                            "default": 24,
+                            "description": "Results per page (max 100)"
+                        }
+                    },
+                    "required": [
+                        "query"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "loi_get_product",
+                "description": "Get detailed product information from LOi including price, stock, images, reviews, shipping, warranty, and payment options.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "product_id": {
+                            "type": "string",
+                            "description": "Product ID or SKU"
+                        },
+                        "include": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "reviews",
+                                    "similar",
+                                    "shipping",
+                                    "payment_options"
+                                ]
+                            },
+                            "description": "Additional data sections to include in the response"
+                        }
+                    },
+                    "required": [
+                        "product_id"
+                    ]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "loi_compare_products",
+                "description": "Compare 2-5 products from LOi side by side. Returns structured comparison of specs, prices, ratings, and availability.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "product_ids": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "minItems": 2,
+                            "maxItems": 5,
+                            "description": "Product IDs to compare"
+                        }
+                    },
+                    "required": [
+                        "product_ids"
+                    ]
+                }
+            }
+        }
+    ],
+    "endpoints": {
+        "search": "https://loi.com.uy/api/v1/products.json",
+        "product": "https://loi.com.uy/api/v1/products.json?q={product_id}",
+        "categories": "https://loi.com.uy/api/v1/categories.json",
+        "tools": "https://loi.com.uy/api/v1/tools.json",
+        "discovery": "https://loi.com.uy/api/v1/agent-discovery"
+    }
+}

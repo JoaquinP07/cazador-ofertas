@@ -1,0 +1,364 @@
+{
+    "version": "1.0",
+    "title": "LOi Uruguay Product Feed",
+    "home_page_url": "https://loi.com.uy",
+    "feed_url": "https://loi.com.uy/api/v1/products.json",
+    "description": "Machine-readable product feed for LOi Uruguay",
+    "language": "es",
+    "total_products": 3196,
+    "page": 1,
+    "per_page": 3,
+    "total_pages": 1066,
+    "products": [
+        {
+            "id": 21597,
+            "title": "Termotanque JAMES",
+            "slug": "termotanque-james-40l-a-g2",
+            "description": "El Termotanque JAMES de 40 litros combina durabilidad, seguridad y practicidad para disfrutar de agua caliente todos los días. Su tanque de cobre y resistencia blindada en titanio ofrecen una solución confiable, mientras que el termostato regulable permite ajustar la temperatura según tus necesidades. Además, cuenta con válvula de seguridad y aislación de poliuretano ecológico, ideal para brindar mayor tranquilidad y confort en tu hogar.\r\n",
+            "sku": "022404",
+            "brand": {
+                "name": "James",
+                "slug": "james",
+                "is_proprietary": false,
+                "relationship": "distributed"
+            },
+            "tier": null,
+            "category": {
+                "name": "Calefones",
+                "slug": "calefones-y-termotanques"
+            },
+            "price": {
+                "amount": 16040.984,
+                "currency": "UYU",
+                "original_amount": 19663.934,
+                "discount_percentage": 18
+            },
+            "availability": "in_stock",
+            "images": [
+                {
+                    "url": "https://de2kqc9pq55cj.cloudfront.net/fit-in/524x480/filters:fill(FFFFFF):quality(90):format(webp)/_img_productos/termotanque-james-40L-a-g2-foto1-.jpg",
+                    "alt": "Termotanque JAMES Cilíndrico de cobre con capacidad de 40L, al mejor precio, solo en LOi",
+                    "width": 524,
+                    "height": 480
+                }
+            ],
+            "url": "https://loi.com.uy/ficha/termotanque-james-40l-a-g2",
+            "condition": "new",
+            "warranty": "12",
+            "updated_at": "2026-10-16 10:24:12",
+            "category_hierarchy": [
+                {
+                    "name": "Calefones",
+                    "slug": "calefones-y-termotanques"
+                }
+            ],
+            "additional_properties": [
+                {
+                    "name": "Aislación",
+                    "value": "Poliuretano ecológico con ciclopentano"
+                },
+                {
+                    "name": "Color",
+                    "value": "Blanco"
+                },
+                {
+                    "name": "Diseño",
+                    "value": "Cilíndrico"
+                },
+                {
+                    "name": "Eficiencia energética",
+                    "value": "A"
+                },
+                {
+                    "name": "Material del tanque",
+                    "value": "Cobre"
+                },
+                {
+                    "name": "Potencia",
+                    "value": "1500",
+                    "unitText": "W"
+                },
+                {
+                    "name": "Presión de válvula de seguridad",
+                    "value": "8kg/cm³"
+                },
+                {
+                    "name": "Temperatura máxima",
+                    "value": "70",
+                    "unitText": "°C"
+                },
+                {
+                    "name": "Tipo de enchufe",
+                    "value": "3 en línea"
+                },
+                {
+                    "name": "Volumen",
+                    "value": "40L"
+                }
+            ]
+        },
+        {
+            "id": 21593,
+            "title": "HONOR 600 Elite 5G",
+            "slug": "celular-honor-600-elite-5g-black",
+            "description": "El HONOR 600 Elite 5G combina elegancia y rendimiento con pantalla de 6,87\" y 120Hz, cámara de 108MP, 8GB de RAM y 256GB de almacenamiento. Gracias a HONOR RAM Turbo, sumá hasta 16GB de memoria virtual, para alcanzar un equivalente de hasta 24GB para una multitarea más fluida. Además, cuenta con batería de 8100mAh, carga rápida de 45W y resistencia al agua y al polvo IP68/IP69/IP69K.",
+            "sku": "022407",
+            "brand": {
+                "name": "HONOR",
+                "slug": "honor",
+                "is_proprietary": false,
+                "relationship": "distributed"
+            },
+            "tier": null,
+            "category": {
+                "name": "Celulares",
+                "slug": "celulares"
+            },
+            "price": {
+                "amount": 450,
+                "currency": "USD",
+                "original_amount": 552.459,
+                "discount_percentage": 19
+            },
+            "availability": "in_stock",
+            "images": [
+                {
+                    "url": "https://de2kqc9pq55cj.cloudfront.net/fit-in/524x480/filters:fill(FFFFFF):quality(90):format(webp)/_img_productos/honor-600-elite-5g-negro-foto_01.jpg",
+                    "alt": "Honor 600 Elite 5G de 6.87\" con 24GB de RAM, 256GB y cámara de 108MP - Black, al mejor precio, solo en LOi",
+                    "width": 524,
+                    "height": 480
+                }
+            ],
+            "url": "https://loi.com.uy/ficha/celular-honor-600-elite-5g-black",
+            "condition": "new",
+            "warranty": "12",
+            "updated_at": "2026-10-20 12:48:20",
+            "category_hierarchy": [
+                {
+                    "name": "Celulares",
+                    "slug": "celulares"
+                }
+            ],
+            "additional_properties": [
+                {
+                    "name": "Almacenamiento",
+                    "value": "256",
+                    "unitText": "GB"
+                },
+                {
+                    "name": "Atenuación",
+                    "value": "Dinámica"
+                },
+                {
+                    "name": "Audio",
+                    "value": "HONOR Sound 7.3"
+                },
+                {
+                    "name": "Brillo",
+                    "value": "860nit (típico)"
+                },
+                {
+                    "name": "Cámara frontal",
+                    "value": "5",
+                    "unitText": "MP"
+                },
+                {
+                    "name": "Cámara principal",
+                    "value": "108",
+                    "unitText": "MP"
+                },
+                {
+                    "name": "Capa de personalización del sistema operativo",
+                    "value": "MagicOS 10.0"
+                },
+                {
+                    "name": "Capacidad de la batería",
+                    "value": "8100mAh"
+                },
+                {
+                    "name": "Capacidad del cargador",
+                    "value": "45W HONOR SuperCharge"
+                },
+                {
+                    "name": "Certificaciones del dispositivo",
+                    "value": "Rendimiento prémium de 5 estrellas SGS de resistencia a caídas y aplastamiento"
+                },
+                {
+                    "name": "Color",
+                    "value": "Negro"
+                },
+                {
+                    "name": "Conector de auriculares",
+                    "value": "Tipo C"
+                },
+                {
+                    "name": "Gama de colores",
+                    "value": "85% NTSC"
+                },
+                {
+                    "name": "Gráficos",
+                    "value": "Adreno 613"
+                },
+                {
+                    "name": "HBM",
+                    "value": "1020nit"
+                },
+                {
+                    "name": "Memoria RAM",
+                    "value": "24GB (8GB + 16GB)"
+                },
+                {
+                    "name": "Modo de enfoque",
+                    "value": "Zoom digital hasta 8x"
+                },
+                {
+                    "name": "Modos de video",
+                    "value": "1080P@30fps"
+                },
+                {
+                    "name": "Núcleos del procesador",
+                    "value": "Octa-core"
+                },
+                {
+                    "name": "Nº de núcleos del procesador",
+                    "value": "8"
+                }
+            ]
+        },
+        {
+            "id": 21592,
+            "title": "HONOR 600 Elite 5G",
+            "slug": "celular-honor-600-elite-5g-silver",
+            "description": "El HONOR 600 Elite 5G combina elegancia y rendimiento con pantalla de 6,87\" y 120Hz, cámara de 108MP, 8GB de RAM y 256GB de almacenamiento. Gracias a HONOR RAM Turbo, sumá hasta 16GB de memoria virtual, para alcanzar un equivalente de hasta 24GB para una multitarea más fluida. Además, cuenta con batería de 8100mAh, carga rápida de 45W y resistencia al agua y al polvo IP68/IP69/IP69K.",
+            "sku": "022405",
+            "brand": {
+                "name": "HONOR",
+                "slug": "honor",
+                "is_proprietary": false,
+                "relationship": "distributed"
+            },
+            "tier": null,
+            "category": {
+                "name": "Celulares",
+                "slug": "celulares"
+            },
+            "price": {
+                "amount": 450,
+                "currency": "USD",
+                "original_amount": 552.459,
+                "discount_percentage": 19
+            },
+            "availability": "in_stock",
+            "images": [
+                {
+                    "url": "https://de2kqc9pq55cj.cloudfront.net/fit-in/524x480/filters:fill(FFFFFF):quality(90):format(webp)/_img_productos/honor-600-elite-5g-silver-foto_01.jpg",
+                    "alt": "Honor 600 Elite 5G de 6.87\" con 24GB de RAM, 256GB y cámara de 108MP - Silver, al mejor precio, solo en LOi",
+                    "width": 524,
+                    "height": 480
+                }
+            ],
+            "url": "https://loi.com.uy/ficha/celular-honor-600-elite-5g-silver",
+            "condition": "new",
+            "warranty": "12",
+            "updated_at": "2026-10-20 12:48:21",
+            "category_hierarchy": [
+                {
+                    "name": "Celulares",
+                    "slug": "celulares"
+                }
+            ],
+            "additional_properties": [
+                {
+                    "name": "Almacenamiento",
+                    "value": "256",
+                    "unitText": "GB"
+                },
+                {
+                    "name": "Atenuación",
+                    "value": "Dinámica"
+                },
+                {
+                    "name": "Audio",
+                    "value": "HONOR Sound 7.3"
+                },
+                {
+                    "name": "Brillo",
+                    "value": "860nit (típico)"
+                },
+                {
+                    "name": "Cámara frontal",
+                    "value": "5",
+                    "unitText": "MP"
+                },
+                {
+                    "name": "Cámara principal",
+                    "value": "108",
+                    "unitText": "MP"
+                },
+                {
+                    "name": "Capa de personalización del sistema operativo",
+                    "value": "MagicOS 10.0"
+                },
+                {
+                    "name": "Capacidad de la batería",
+                    "value": "8100mAh"
+                },
+                {
+                    "name": "Capacidad del cargador",
+                    "value": "45W HONOR SuperCharge"
+                },
+                {
+                    "name": "Certificaciones del dispositivo",
+                    "value": "Rendimiento prémium de 5 estrellas SGS de resistencia a caídas y aplastamiento"
+                },
+                {
+                    "name": "Color",
+                    "value": "Gris"
+                },
+                {
+                    "name": "Conector de auriculares",
+                    "value": "Tipo C"
+                },
+                {
+                    "name": "Gama de colores",
+                    "value": "85% NTSC"
+                },
+                {
+                    "name": "Gráficos",
+                    "value": "Adreno 613"
+                },
+                {
+                    "name": "HBM",
+                    "value": "1020nit"
+                },
+                {
+                    "name": "Memoria RAM",
+                    "value": "24GB (8GB + 16GB)"
+                },
+                {
+                    "name": "Modo de enfoque",
+                    "value": "Zoom digital hasta 8x"
+                },
+                {
+                    "name": "Modos de video",
+                    "value": "1080P@30fps"
+                },
+                {
+                    "name": "Núcleos del procesador",
+                    "value": "Octa-core"
+                },
+                {
+                    "name": "Nº de núcleos del procesador",
+                    "value": "8"
+                }
+            ]
+        }
+    ],
+    "_links": {
+        "self": "https://loi.com.uy/api/v1/products.json?page=1&per_page=3",
+        "first": "https://loi.com.uy/api/v1/products.json?page=1&per_page=3",
+        "last": "https://loi.com.uy/api/v1/products.json?page=1066&per_page=3",
+        "next": "https://loi.com.uy/api/v1/products.json?page=2&per_page=3",
+        "prev": null
+    }
+}

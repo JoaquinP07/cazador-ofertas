@@ -1,0 +1,50 @@
+{
+  "loi_all": {
+    "status": 200,
+    "url_final": "https://loi.com.uy/api/v1/products.json?per_page=3",
+    "tipo": "application/json; charset=utf-8",
+    "server": "cloudflare",
+    "tamano": 13621,
+    "senales": []
+  },
+  "loi_all_nostock": {
+    "status": 200,
+    "url_final": "https://loi.com.uy/api/v1/products.json?per_page=3&in_stock=false",
+    "tipo": "application/json; charset=utf-8",
+    "server": "cloudflare",
+    "tamano": 13621,
+    "senales": []
+  },
+  "loi_q": {
+    "status": 200,
+    "url_final": "https://loi.com.uy/api/v1/products.json?q=televisor&per_page=3",
+    "tipo": "application/json; charset=utf-8",
+    "server": "cloudflare",
+    "tamano": 656,
+    "senales": []
+  },
+  "loi_openapi": {
+    "status": 200,
+    "url_final": "https://loi.com.uy/.well-known/openapi.json",
+    "tipo": "application/json; charset=utf-8",
+    "server": "cloudflare",
+    "tamano": 19305,
+    "senales": []
+  },
+  "loi_tools": {
+    "status": 200,
+    "url_final": "https://loi.com.uy/api/v1/tools.json",
+    "tipo": "application/json; charset=utf-8",
+    "server": "cloudflare",
+    "tamano": 5604,
+    "senales": []
+  },
+  "loi_tec_html": {
+    "status": 404,
+    "url_final": "https://loi.com.uy/404",
+    "tipo": "text/html; charset=UTF-8",
+    "server": "cloudflare",
+    "tamano": 188494,
+    "senales": []
+  }
+}

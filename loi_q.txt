@@ -1,0 +1,20 @@
+{
+    "version": "1.0",
+    "title": "LOi Uruguay Product Feed",
+    "home_page_url": "https://loi.com.uy",
+    "feed_url": "https://loi.com.uy/api/v1/products.json",
+    "description": "Machine-readable product feed for LOi Uruguay",
+    "language": "es",
+    "total_products": 0,
+    "page": 1,
+    "per_page": 3,
+    "total_pages": 0,
+    "products": [],
+    "_links": {
+        "self": "https://loi.com.uy/api/v1/products.json?page=1&per_page=3",
+        "first": "https://loi.com.uy/api/v1/products.json?page=1&per_page=3",
+        "last": "https://loi.com.uy/api/v1/products.json?page=0&per_page=3",
+        "next": null,
+        "prev": null
+    }
+}
