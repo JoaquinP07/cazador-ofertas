@@ -57,7 +57,8 @@ def main() -> int:
         rep.mkdir(exist_ok=True)
         (rep / "resumen.json").write_text(
             json.dumps({"tiendas": resumen, "duracion_s": round(duracion), "historial": len(hist.datos),
-                        "telegram": "enviado" if ok else telegram.ULTIMO_ERROR, "detalle": DETALLE},
+                        "telegram": "enviado" if ok else telegram.ULTIMO_ERROR,
+                        "diagnostico": None if ok else telegram.diagnostico(), "detalle": DETALLE},
                        ensure_ascii=False, indent=2), encoding="utf-8")
         (rep / "muestras.json").write_text(json.dumps(muestras, ensure_ascii=False, indent=1), encoding="utf-8")
     return 0
