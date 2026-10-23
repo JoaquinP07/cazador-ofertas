@@ -14,6 +14,21 @@ UA = (
 )
 
 URLS = {
+    "zt_cat": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets",
+    "zt_cat_p2": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?pag=2",
+    "zt_cat_ord": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?ord=pre-asc",
+    "tata_vtex": "https://www.tata.com.uy/api/catalog_system/pub/products/search?ft=televisor&_from=0&_to=2",
+    "tata_is": "https://www.tata.com.uy/api/io/_v/api/intelligent-search/product_search/?query=televisor&count=2",
+    "tata_tree": "https://www.tata.com.uy/api/catalog_system/pub/category/tree/2",
+    "devoto_cat": "https://www.devoto.com.uy/products/category/9115",
+    "devoto_beta_cat": "https://beta.devoto.com.uy/products/category/9115",
+    "devoto_busq": "https://www.devoto.com.uy/products/search?text=televisor",
+    "ti_cffi": "CFFI:https://www.tiendainglesa.com.uy/supermercado/busqueda?0,0,televisor,0",
+    "ml_api_cffi": "CFFI:https://api.mercadolibre.com/sites/MLU/search?q=televisor&limit=2",
+    "ml_listado_cffi": "CFFI:https://listado.mercadolibre.com.uy/televisores_Tienda_all",
+    "ml_ofertas_cffi": "CFFI:https://www.mercadolibre.com.uy/ofertas",
+}
+_VIEJAS = {
     "tiendainglesa_home": "https://www.tiendainglesa.com.uy/",
     "tiendainglesa_busqueda": "https://www.tiendainglesa.com.uy/supermercado/busqueda?0,0,televisor,0",
     "devoto_home": "https://www.devoto.com.uy/",
@@ -55,7 +70,11 @@ s.headers.update({"User-Agent": UA, "Accept-Language": "es-UY,es;q=0.9"})
 
 for nombre, url in URLS.items():
     try:
-        r = s.get(url, timeout=30, allow_redirects=True)
+        if url.startswith("CFFI:"):
+            from curl_cffi import requests as creq
+            r = creq.get(url[5:], impersonate="chrome", timeout=30)
+        else:
+            r = s.get(url, timeout=30, allow_redirects=True)
         texto = r.text
         (out / f"{nombre}.txt").write_text(texto[:400_000], encoding="utf-8")
         resumen[nombre] = {
