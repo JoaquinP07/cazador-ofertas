@@ -1,8 +1,12 @@
 import json, pathlib, re, requests
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36"
 URLS = {
-    "loi_tec": "https://loi.com.uy/api/v1/products.json?category=tecnologia&per_page=3",
-    "loi_ele": "https://loi.com.uy/api/v1/products.json?category=electrodomesticos&per_page=3",
+    "loi_all": "https://loi.com.uy/api/v1/products.json?per_page=3",
+    "loi_all_nostock": "https://loi.com.uy/api/v1/products.json?per_page=3&in_stock=false",
+    "loi_q": "https://loi.com.uy/api/v1/products.json?q=televisor&per_page=3",
+    "loi_openapi": "https://loi.com.uy/.well-known/openapi.json",
+    "loi_tools": "https://loi.com.uy/api/v1/tools.json",
+    "loi_tec_html": "https://loi.com.uy/tecnologia",
 }
 out = pathlib.Path("sondeo"); out.mkdir(exist_ok=True)
 res = {}
