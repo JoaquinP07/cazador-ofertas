@@ -14,19 +14,16 @@ UA = (
 )
 
 URLS = {
-    "zt_cat": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets",
-    "zt_cat_p2": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?pag=2",
-    "zt_cat_ord": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?ord=pre-asc",
-    "tata_vtex": "https://www.tata.com.uy/api/catalog_system/pub/products/search?ft=televisor&_from=0&_to=2",
-    "tata_is": "https://www.tata.com.uy/api/io/_v/api/intelligent-search/product_search/?query=televisor&count=2",
-    "tata_tree": "https://www.tata.com.uy/api/catalog_system/pub/category/tree/2",
-    "devoto_cat": "https://www.devoto.com.uy/products/category/9115",
-    "devoto_beta_cat": "https://beta.devoto.com.uy/products/category/9115",
-    "devoto_busq": "https://www.devoto.com.uy/products/search?text=televisor",
-    "ti_cffi": "CFFI:https://www.tiendainglesa.com.uy/supermercado/busqueda?0,0,televisor,0",
-    "ml_api_cffi": "CFFI:https://api.mercadolibre.com/sites/MLU/search?q=televisor&limit=2",
-    "ml_listado_cffi": "CFFI:https://listado.mercadolibre.com.uy/televisores_Tienda_all",
-    "ml_ofertas_cffi": "CFFI:https://www.mercadolibre.com.uy/ofertas",
+    "zt_js": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?js=1&pag=2",
+    "zt_pagina": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets/pag-2",
+    "zt_page": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?page=2",
+    "zt_p": "https://www.zonatecno.com.uy/celulares-relojes-y-tablets?p=2",
+    "zt_catalogo": "https://www.zonatecno.com.uy/catalogo?pag=2",
+    "tata_pagedata": "https://www.tata.com.uy/page-data/multiahorro/page-data.json",
+    "tata_electro": "https://www.tata.com.uy/electrodomesticos",
+    "tata_tv": "https://www.tata.com.uy/s?q=televisor",
+    "devoto_tv": "https://www.devoto.com.uy/products/category/tv-y-audio/20",
+    "devoto_tv_p2": "https://www.devoto.com.uy/products/category/tv-y-audio/20?page=2",
 }
 _VIEJAS = {
     "tiendainglesa_home": "https://www.tiendainglesa.com.uy/",
