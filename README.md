@@ -13,6 +13,13 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 | Loi | Todo menos belleza, moda y bebés (feed oficial) |
 | Multiahorro / Tata | Electrodomésticos y electrónica (~440) |
 | Devoto | Solo los 12 primeros de cada categoría (la web no deja ver más sin navegador) |
+| El Dorado | Electro, audio y TV |
+| Oportuna | Audio y TV, celulares, electrodomésticos, tecnología y outlet |
+| UruMarket | Celulares, notebooks, tablets, accesorios y oportunidades |
+| La Tentación | Celulares, computación, consolas, electrodomésticos, audio y video |
+| Divino | Electrodomésticos |
+| Sodimac | Electrohogar, climatización y electrodomésticos |
+| El Emporio del Hogar | Electrodomésticos |
 | Tienda Inglesa | ❌ bloquea las conexiones desde GitHub |
 | Mercado Libre | ❌ bloquea las conexiones desde GitHub |
 

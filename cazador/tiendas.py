@@ -456,4 +456,32 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
         "Devoto",
         ["tv-y-audio/20", "celulares-y-telefonia/21", "electrodomesticos/22", "tecnologia/23"],
     ),
+    "El Dorado": lambda: vtex("El Dorado", "https://www.eldorado.com.uy", fq="C:/4/"),  # Electro, audio y TV
+    "Oportuna": lambda: fenicio(
+        "Oportuna",
+        "https://www.oportuna.com.uy",
+        ["audio-y-tv", "celulares", "electrodomesticos", "tecnologia-y-computacion", "outlet"],
+    ),
+    "UruMarket": lambda: fenicio(
+        "UruMarket",
+        "https://www.urumarket.com.uy",
+        ["celulares", "notebooks", "tablets", "accesorios", "oportunidades"],
+    ),
+    "La Tentación": lambda: fenicio(
+        "La Tentación",
+        "https://www.latentacion.com.uy",
+        ["celulares-y-telefonia", "computacion", "consolas", "electrodomesticos", "electronica-audio-y-video"],
+    ),
+    "Divino": lambda: fenicio("Divino", "https://www.divino.com.uy", ["electrodomesticos"]),
+    "Sodimac": lambda: sodimac(
+        "Sodimac",
+        [
+            "cat1140017",  # Electrohogar y climatización
+            "cat1140019",  # Electrodomésticos del hogar
+            "cat1140011",  # Electrodomésticos de cocina
+        ],
+    ),
+    "El Emporio del Hogar": lambda: magento(
+        "El Emporio del Hogar", "https://www.elemporiodelhogar.com.uy", categoria="272"  # Electrodomésticos
+    ),
 }
