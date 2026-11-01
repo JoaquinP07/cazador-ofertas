@@ -1,12 +1,14 @@
 """Revisión completa: lee las tiendas, compara con el historial y avisa por Telegram.
 
 Uso:
-  python -m cazador            # revisión normal
+  python -m cazador            # una revisión
+  python -m cazador --bucle    # revisa cada 10 minutos durante ~5 h 30 min (así corre en GitHub)
   python -m cazador --prueba   # además guarda una muestra en reporte/ y manda un mensaje de prueba
 """
 from __future__ import annotations
 
 import json
+import os
 import pathlib
 import sys
 import time
@@ -20,8 +22,8 @@ from .tiendas import DETALLE, TIENDAS
 HISTORIAL = pathlib.Path("estado/historial.json")
 
 
-def main() -> int:
-    prueba = "--prueba" in sys.argv
+def revisar(prueba: bool = False) -> None:
+    DETALLE.clear()
     hist = Historial(HISTORIAL)
     tiendas_conocidas = {k.split(":", 1)[0] for k in hist.datos}
     resumen, muestras, avisos = {}, {}, 0
@@ -72,6 +74,32 @@ def main() -> int:
                         "diagnostico": None if ok else telegram.diagnostico(), "detalle": DETALLE},
                        ensure_ascii=False, indent=2), encoding="utf-8")
         (rep / "muestras.json").write_text(json.dumps(muestras, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+# GitHub no respeta la programación cada pocos minutos (la demora horas), así que cada corrida
+# revisa en bucle durante un rato largo y al terminar el workflow lanza la siguiente.
+INTERVALO = int(os.environ.get("INTERVALO_MIN", "10")) * 60
+DURACION = int(os.environ.get("DURACION_MIN", "330")) * 60
+
+
+def main() -> int:
+    if "--bucle" not in sys.argv:
+        revisar(prueba="--prueba" in sys.argv)
+        return 0
+    inicio, vuelta = time.time(), 0
+    while True:
+        vuelta += 1
+        t0 = time.time()
+        print(f"\n===== Vuelta {vuelta} =====", flush=True)
+        try:
+            revisar()
+        except Exception:  # un error en una vuelta no corta el bucle
+            traceback.print_exc()
+        proxima = t0 + INTERVALO
+        if proxima + 60 - inicio > DURACION:
+            break
+        time.sleep(max(0, proxima - time.time()))
+    print(f"Fin de la tanda: {vuelta} vueltas en {(time.time() - inicio) / 60:.0f} min")
     return 0
 
 

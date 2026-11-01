@@ -2,7 +2,7 @@ name: Cazador de ofertas
 
 on:
   schedule:
-    - cron: "3-59/10 * * * *"   # cada 10 minutos (GitHub puede demorar algunos minutos más)
+    - cron: "17 */2 * * *"   # respaldo: cada corrida lanza la siguiente; esto la reanuda si la cadena se corta
   workflow_dispatch:
     inputs:
       prueba:
@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: cazador
@@ -20,7 +21,7 @@ concurrency:
 jobs:
   revisar:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 355
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -40,7 +41,7 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python -m cazador ${{ inputs.prueba && '--prueba' || '' }}
+        run: python -m cazador ${{ inputs.prueba && '--prueba' || '--bucle' }}
 
       - name: Guardar historial de precios
         if: always()
@@ -48,6 +49,12 @@ jobs:
         with:
           path: estado
           key: historial-${{ github.run_id }}
+
+      - name: Lanzar la tanda siguiente
+        if: ${{ !inputs.prueba && !cancelled() }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run cazador.yml --repo "${{ github.repository }}" --ref "${{ github.ref_name }}"
 
       - name: Publicar reporte de prueba
         if: inputs.prueba
