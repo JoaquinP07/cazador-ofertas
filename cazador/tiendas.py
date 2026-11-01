@@ -271,6 +271,133 @@ def loi(tienda: str) -> list[Producto]:
     return prods
 
 
+# ---------------------------------------------------------------- VTEX clásico (El Dorado)
+def vtex(tienda: str, base: str, maximo: int = 2500, fq: str | None = None) -> list[Producto]:
+    vistos: dict[str, Producto] = {}
+    desde, total = 0, None
+    while desde < maximo:
+        r = _get(f"{base}/api/catalog_system/pub/products/search", params={"_from": desde, "_to": desde + 49, **({"fq": fq} if fq else {})})
+        if r.status_code not in (200, 206):
+            nota(f"  [{tienda}] desde {desde}: HTTP {r.status_code}")
+            break
+        if total is None:
+            m = re.search(r"/(\d+)$", r.headers.get("resources", ""))
+            total = int(m.group(1)) if m else maximo
+        lote = r.json()
+        if not lote:
+            break
+        for pr in lote:
+            for it in pr.get("items", [])[:20]:
+                of = ((it.get("sellers") or [{}])[0]).get("commertialOffer") or {}
+                if not of.get("Price"):
+                    continue
+                lista = of.get("ListPrice") or of.get("PriceWithoutDiscount")
+                p = Producto(
+                    tienda=tienda,
+                    id=str(it["itemId"]),
+                    nombre=it.get("nameComplete") or pr["productName"],
+                    precio=float(of["Price"]),
+                    moneda="UYU",
+                    url=pr.get("link") or f"{base}/{pr['linkText']}/p",
+                    precio_lista=float(lista) if lista and lista > of["Price"] else None,
+                    disponible=(of.get("AvailableQuantity") or 0) > 0,
+                )
+                vistos[p.clave] = p
+        desde += 50
+        if desde >= total:
+            break
+    nota(f"  [{tienda}] {fq or 'todo'}: {total} declarados")
+    return list(vistos.values())
+
+
+# ---------------------------------------------------------------- Sodimac (plataforma Falabella; datos en __NEXT_DATA__)
+_SOD = "https://www.sodimac.com.uy/sodimac-uy"
+
+
+def sodimac(tienda: str, categorias: Iterable[str], max_paginas: int = 60) -> list[Producto]:
+    vistos: dict[str, Producto] = {}
+    for cat in categorias:
+        total = None
+        for pag in range(1, max_paginas + 1):
+            r = _get(f"{_SOD}/category/{cat}/x?currentpage={pag}")
+            m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
+            if r.status_code != 200 or not m:
+                nota(f"  [{tienda}] {cat} pág {pag}: HTTP {r.status_code} {'sin datos' if not m else ''}")
+                break
+            sd = json.loads(m.group(1))["props"]["pageProps"]["searchProps"]["searchData"]
+            pg = sd.get("pagination") or {}
+            total = pg.get("count", 0)
+            if pg.get("currentPage") != pag:
+                break
+            for x in sd.get("results") or []:
+                precios = {pr.get("type"): pr for pr in x.get("prices") or []}
+                actual = min(
+                    (pr for pr in x.get("prices") or [] if pr.get("priceWithoutFormatting")),
+                    key=lambda pr: pr["priceWithoutFormatting"],
+                    default=None,
+                )
+                if not actual:
+                    continue
+                normal = precios.get("NORMAL")
+                lista = normal["priceWithoutFormatting"] if normal else None
+                p = Producto(
+                    tienda=tienda,
+                    id=str(x.get("skuId") or x["productId"]),
+                    nombre=" ".join(filter(None, [x.get("brand"), x.get("displayName")])),
+                    precio=float(actual["priceWithoutFormatting"]),
+                    moneda=moneda(actual.get("symbol") or "$"),
+                    url=x.get("url") or f"{_SOD}/product/{x['productId']}/x/{x.get('skuId') or x['productId']}",
+                    precio_lista=float(lista) if lista and lista > actual["priceWithoutFormatting"] else None,
+                )
+                vistos[p.clave] = p
+            if pag * (pg.get("perPage") or 40) >= total:
+                break
+            time.sleep(0.5)
+        nota(f"  [{tienda}] {cat}: {total} declarados")
+    return list(vistos.values())
+
+
+# ---------------------------------------------------------------- Magento 2 (El Emporio del Hogar; GraphQL público)
+_MAG_Q = (
+    "{products(search:\"\", %s pageSize:%d, currentPage:%d){total_count items{sku name url_key url_suffix stock_status "
+    "price_range{minimum_price{final_price{value currency} regular_price{value}}}}}}"
+)
+
+
+def magento(tienda: str, base: str, categoria: str | None = None, por_pagina: int = 100, max_paginas: int = 60) -> list[Producto]:
+    filtro = f'filter:{{category_id:{{eq:"{categoria}"}}}}' if categoria else ""
+    vistos: dict[str, Producto] = {}
+    total = None
+    for pag in range(1, max_paginas + 1):
+        r = _get(f"{base}/graphql", params={"query": _MAG_Q % (filtro, por_pagina, pag)})
+        try:
+            datos = r.json()["data"]["products"]
+        except (ValueError, KeyError, TypeError):
+            nota(f"  [{tienda}] pág {pag}: HTTP {r.status_code} {r.text[:150]}")
+            break
+        total = datos["total_count"]
+        for it in datos["items"]:
+            mp = it["price_range"]["minimum_price"]
+            precio, lista = mp["final_price"]["value"], (mp.get("regular_price") or {}).get("value")
+            if not precio:
+                continue
+            p = Producto(
+                tienda=tienda,
+                id=it["sku"],
+                nombre=it["name"].strip(),
+                precio=float(precio),
+                moneda="USD" if mp["final_price"].get("currency") == "USD" else "UYU",
+                url=f"{base}/{it['url_key']}{it.get('url_suffix') or ''}",
+                precio_lista=float(lista) if lista and lista > precio else None,
+                disponible=it.get("stock_status") == "IN_STOCK",
+            )
+            vistos[p.clave] = p
+        if pag * por_pagina >= total or not datos["items"]:
+            break
+    nota(f"  [{tienda}] {total} declarados")
+    return list(vistos.values())
+
+
 # ---------------------------------------------------------------- Configuración
 TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "Loi": lambda: loi("Loi"),
