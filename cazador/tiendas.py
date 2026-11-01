@@ -319,12 +319,18 @@ def sodimac(tienda: str, categorias: Iterable[str], max_paginas: int = 60) -> li
     for cat in categorias:
         total = None
         for pag in range(1, max_paginas + 1):
-            r = _get(f"{_SOD}/category/{cat}/x?currentpage={pag}")
-            m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
-            if r.status_code != 200 or not m:
-                nota(f"  [{tienda}] {cat} pág {pag}: HTTP {r.status_code} {'sin datos' if not m else ''}")
+            sd = None
+            for intento in range(2):  # a veces la página llega sin el listado; se reintenta una vez
+                r = _get(f"{_SOD}/category/{cat}/x?currentpage={pag}")
+                m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
+                try:
+                    sd = json.loads(m.group(1))["props"]["pageProps"]["searchProps"]["searchData"]
+                    break
+                except (AttributeError, KeyError, TypeError, ValueError):
+                    time.sleep(3)
+            if sd is None:
+                nota(f"  [{tienda}] {cat} pág {pag}: HTTP {r.status_code} sin datos")
                 break
-            sd = json.loads(m.group(1))["props"]["pageProps"]["searchProps"]["searchData"]
             pg = sd.get("pagination") or {}
             total = pg.get("count", 0)
             if pg.get("currentPage") != pag:
