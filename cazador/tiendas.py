@@ -404,6 +404,50 @@ def magento(tienda: str, base: str, categoria: str | None = None, por_pagina: in
     return list(vistos.values())
 
 
+# ---------------------------------------------------------------- WooCommerce (Mi Uruguay / Xiaomi; Store API pública)
+def woocommerce(tienda: str, base: str, por_pagina: int = 100, max_paginas: int = 30) -> list[Producto]:
+    vistos: dict[str, Producto] = {}
+    total = None
+    for pag in range(1, max_paginas + 1):
+        r = _get(f"{base}/wp-json/wc/store/v1/products", params={"per_page": por_pagina, "page": pag})
+        if r.status_code != 200:
+            nota(f"  [{tienda}] pág {pag}: HTTP {r.status_code}")
+            break
+        try:
+            lote = r.json()
+        except ValueError:
+            nota(f"  [{tienda}] pág {pag}: respuesta inesperada {r.text[:150]}")
+            break
+        if total is None:
+            total = int(r.headers.get("x-wp-total") or 0)
+        for it in lote:
+            pr = it.get("prices") or {}
+            div = 10 ** int(pr.get("currency_minor_unit") or 0)
+            try:
+                precio = float(pr.get("price") or 0) / div
+                lista = float(pr.get("regular_price") or 0) / div
+            except ValueError:
+                continue
+            if not precio:
+                continue
+            p = Producto(
+                tienda=tienda,
+                id=str(it["id"]),
+                nombre=html.unescape(it["name"]).strip(),
+                precio=precio,
+                moneda="USD" if pr.get("currency_code") == "USD" else "UYU",
+                url=it["permalink"],
+                precio_lista=lista if lista > precio else None,
+                disponible=bool(it.get("is_in_stock", True)),
+            )
+            vistos[p.clave] = p
+        paginas = int(r.headers.get("x-wp-totalpages") or 1)
+        if pag >= paginas or not lote:
+            break
+    nota(f"  [{tienda}] {total} declarados")
+    return list(vistos.values())
+
+
 # ---------------------------------------------------------------- Configuración
 TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "Loi": lambda: loi("Loi"),
@@ -487,6 +531,7 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
             "cat1140011",  # Electrodomésticos de cocina
         ],
     ),
+    "Mi Uruguay (Xiaomi)": lambda: woocommerce("Mi Uruguay (Xiaomi)", "https://miuruguay.com.uy"),
     "El Emporio del Hogar": lambda: magento(
         "El Emporio del Hogar", "https://www.elemporiodelhogar.com.uy", categoria="272"  # Electrodomésticos
     ),

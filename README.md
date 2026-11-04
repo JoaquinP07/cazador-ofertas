@@ -20,6 +20,7 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 | Divino | Electrodomésticos |
 | Sodimac | Electrohogar, climatización y electrodomésticos |
 | El Emporio del Hogar | Electrodomésticos |
+| Mi Uruguay (Xiaomi) | Catálogo completo Xiaomi, Redmi y Poco: celulares, smart home, electrodomésticos, movilidad (~420) |
 | Tienda Inglesa | ❌ bloquea las conexiones desde GitHub |
 | Mercado Libre | ❌ bloquea las conexiones desde GitHub |
 
