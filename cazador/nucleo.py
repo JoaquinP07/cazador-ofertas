@@ -8,7 +8,7 @@ import time
 from dataclasses import dataclass, field
 
 # Una baja mayor a esto respecto al precio habitual del producto dispara un aviso.
-CAIDA_MINIMA = 0.40
+CAIDA_MINIMA = 0.30
 # Para productos nuevos (sin historial): descuento contra el precio de lista que dispara aviso.
 DESCUENTO_LISTA_MINIMO = 0.60
 # Cuántos precios recordamos por producto.

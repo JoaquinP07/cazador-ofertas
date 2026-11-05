@@ -26,7 +26,7 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 
 ## Cuándo avisa
 
-- Un producto cuesta **40% menos o más** que su precio habitual (la mediana de los últimos precios vistos).
+- Un producto cuesta **30% menos o más** que su precio habitual (la mediana de los últimos precios vistos).
 - Un producto nuevo aparece con **60% o más** de descuento sobre su precio de lista.
 - No repite el aviso del mismo producto durante 12 horas.
 
