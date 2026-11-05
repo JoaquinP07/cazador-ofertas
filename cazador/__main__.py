@@ -83,6 +83,10 @@ DURACION = int(os.environ.get("DURACION_MIN", "330")) * 60
 
 
 def main() -> int:
+    if "--resumen" in sys.argv:
+        from .resumen import correr
+
+        return correr()
     if "--bucle" not in sys.argv:
         revisar(prueba="--prueba" in sys.argv)
         return 0
