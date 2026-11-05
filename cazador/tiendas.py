@@ -531,6 +531,12 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
             "cat1140011",  # Electrodomésticos de cocina
         ],
     ),
+    "Tecsys": lambda: woocommerce("Tecsys", "https://tecsys.com.uy", max_paginas=60),  # ~5.000 productos, en USD
+    "Market UY": lambda: fenicio(
+        "Market UY",
+        "https://www.market.com.uy",
+        ["celulares", "informatica", "gaming", "hogar", "wearables", "audio", "accesorios"],
+    ),
     "Mi Uruguay (Xiaomi)": lambda: woocommerce("Mi Uruguay (Xiaomi)", "https://miuruguay.com.uy"),
     "El Emporio del Hogar": lambda: magento(
         "El Emporio del Hogar", "https://www.elemporiodelhogar.com.uy", categoria="272"  # Electrodomésticos

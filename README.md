@@ -21,6 +21,8 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 | Sodimac | Electrohogar, climatización y electrodomésticos |
 | El Emporio del Hogar | Electrodomésticos |
 | Mi Uruguay (Xiaomi) | Catálogo completo Xiaomi, Redmi y Poco: celulares, smart home, electrodomésticos, movilidad (~420) |
+| Tecsys | Catálogo completo: notebooks, gaming, componentes, impresoras (~5.000, en dólares) |
+| Market UY | Celulares, informática, gaming, hogar, wearables, audio y accesorios (~540) |
 | Tienda Inglesa | ❌ bloquea las conexiones desde GitHub |
 | Mercado Libre | ❌ bloquea las conexiones desde GitHub |
 
