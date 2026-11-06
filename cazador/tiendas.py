@@ -541,4 +541,8 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "El Emporio del Hogar": lambda: magento(
         "El Emporio del Hogar", "https://www.elemporiodelhogar.com.uy", categoria="272"  # Electrodomésticos
     ),
+    "LG Uruguay": lambda: fenicio("LG Uruguay", "https://www.ltienda.com.uy", ["catalogo"]),  # ~110 productos
+    "Samsung (Stienda)": lambda: fenicio("Samsung (Stienda)", "https://stienda.uy", ["catalogo"]),  # ~250 productos
+    "MundoMac": lambda: fenicio("MundoMac", "https://www.mundomac.com", ["catalogo"]),  # ~320 productos, Apple
+    "Universo Binario": lambda: fenicio("Universo Binario", "https://universobinario.com", ["catalogo"], max_paginas=350),  # ~4.000 productos
 }
