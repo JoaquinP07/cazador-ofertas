@@ -448,6 +448,53 @@ def woocommerce(tienda: str, base: str, por_pagina: int = 100, max_paginas: int 
     return list(vistos.values())
 
 
+# ---------------------------------------------------------------- Retai.la (Net PC)
+def retaila(tienda: str, base: str, por_pagina: int = 100, max_paginas: int = 30) -> list[Producto]:
+    """Tiendas hechas con Retai.la: API JSON en /api/products?l=N&p=N."""
+    vistos: dict[str, Producto] = {}
+    total = None
+    for pag in range(1, max_paginas + 1):
+        r = _get(f"{base}/api/products", params={"l": por_pagina, "p": pag, "sort": "newest"})
+        if r.status_code != 200:
+            nota(f"  [{tienda}] pág {pag}: HTTP {r.status_code}")
+            break
+        try:
+            datos = r.json()
+        except ValueError:
+            nota(f"  [{tienda}] pág {pag}: respuesta inesperada {r.text[:150]}")
+            break
+        lote = datos.get("items") or []
+        total = datos.get("total", total)
+        for it in lote:
+            if it.get("status") not in (None, "ACTIVE"):
+                continue
+            for v in it.get("variants") or []:
+                if v.get("status") not in (None, "ACTIVE"):
+                    continue
+                try:
+                    precio = float(v.get("price") or 0)
+                    lista = float(v.get("compareAtPrice") or 0)
+                except ValueError:
+                    continue
+                if not precio:
+                    continue
+                p = Producto(
+                    tienda=tienda,
+                    id=str(v.get("sku") or v.get("id")),
+                    nombre=html.unescape(it["name"]).strip(),
+                    precio=precio,
+                    moneda="USD" if v.get("currency") == "USD" else "UYU",
+                    url=f"{base}/producto/{it['slug']}",
+                    precio_lista=lista if lista > precio else None,
+                    disponible=(v.get("stock") or 0) > 0,
+                )
+                vistos[p.clave] = p
+        if len(lote) < por_pagina:
+            break
+    nota(f"  [{tienda}] {total} declarados")
+    return list(vistos.values())
+
+
 # ---------------------------------------------------------------- Configuración
 TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "Loi": lambda: loi("Loi"),
@@ -546,4 +593,6 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "MundoMac": lambda: fenicio("MundoMac", "https://www.mundomac.com", ["catalogo"]),  # ~320 productos, Apple
     "Universo Binario": lambda: fenicio("Universo Binario", "https://universobinario.com", ["catalogo"], max_paginas=350),  # ~4.000 productos
     "Whirlpool": lambda: fenicio("Whirlpool", "https://www.whirlpool.com.uy", ["catalogo"]),  # ~44 productos
+    "Net PC": lambda: retaila("Net PC", "https://netpc.uy"),  # en USD
+    "GameStop UY": lambda: fenicio("GameStop UY", "https://www.gamestop.com.uy", ["catalogo"]),  # ~830 productos
 }
