@@ -28,7 +28,6 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 | MundoMac | Productos Apple y accesorios (~320) |
 | Universo Binario | Catálogo completo de tecnología (~4.000) |
 | Whirlpool | Tienda oficial: electrodomésticos (~44) |
-| JYSK | Muebles y hogar (~1.850) |
 | Tienda Inglesa | ❌ bloquea las conexiones desde GitHub |
 | Mercado Libre | ❌ bloquea las conexiones desde GitHub |
 

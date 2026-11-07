@@ -546,5 +546,4 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "MundoMac": lambda: fenicio("MundoMac", "https://www.mundomac.com", ["catalogo"]),  # ~320 productos, Apple
     "Universo Binario": lambda: fenicio("Universo Binario", "https://universobinario.com", ["catalogo"], max_paginas=350),  # ~4.000 productos
     "Whirlpool": lambda: fenicio("Whirlpool", "https://www.whirlpool.com.uy", ["catalogo"]),  # ~44 productos
-    "JYSK": lambda: fenicio("JYSK", "https://www.jysk.uy", ["catalogo"], max_paginas=170),  # ~1.850 productos, muebles y hogar
 }
