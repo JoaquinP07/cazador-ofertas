@@ -595,4 +595,5 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "Whirlpool": lambda: fenicio("Whirlpool", "https://www.whirlpool.com.uy", ["catalogo"]),  # ~44 productos
     "Net PC": lambda: retaila("Net PC", "https://netpc.uy"),  # en USD
     "GameStop UY": lambda: fenicio("GameStop UY", "https://www.gamestop.com.uy", ["catalogo"]),  # ~830 productos
+    "Zonalaptop": lambda: fenicio("Zonalaptop", "https://zonalaptop.com.uy", ["catalogo"]),  # ~126 productos
 }

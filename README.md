@@ -30,6 +30,7 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 | Whirlpool | Tienda oficial: electrodomésticos (~44) |
 | Net PC | Notebooks, PC gamer, monitores y telefonía (~120, en dólares) |
 | GameStop UY | Videojuegos, consolas, tecnología y accesorios (~830) |
+| Zonalaptop | Notebooks y accesorios (~126) |
 | Tienda Electrónica UY | ❌ muestra los precios solo a usuarios registrados |
 | Tienda Inglesa | ❌ bloquea las conexiones desde GitHub |
 | Mercado Libre | ❌ bloquea las conexiones desde GitHub |
