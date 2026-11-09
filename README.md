@@ -44,6 +44,17 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 
 Los porcentajes se cambian en `cazador/nucleo.py`.
 
+## Comandos por Telegram
+
+El bot contesta en unos segundos (solo al chat configurado en `TELEGRAM_CHAT_ID`):
+
+- `/buscar tv 55` → las 10 más baratas entre todas las tiendas. Con `oferta` al final, las que más bajaron; con `historico`, las que están en su precio mínimo registrado.
+- `/agregar https://tienda.com.uy` → suma una tienda si usa Fenicio, Shopify o WooCommerce.
+- `/quitar nombre` y `/reanudar nombre` → sacan o pausan una tienda.
+- `/lista` → tiendas que se revisan y cuántos productos tiene cada una.
+
+Las tiendas agregadas y pausadas se guardan en `estado/control.json` (en el mismo caché que el historial).
+
 ## Configuración
 
 En **Settings → Secrets and variables → Actions** del repositorio:
