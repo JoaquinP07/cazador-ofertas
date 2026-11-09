@@ -603,15 +603,8 @@ TIENDAS: dict[str, Callable[[], list[Producto]]] = {
     "GameStop UY": lambda: fenicio("GameStop UY", "https://www.gamestop.com.uy", ["catalogo"]),  # ~830 productos
     "Zonalaptop": lambda: fenicio("Zonalaptop", "https://zonalaptop.com.uy", ["catalogo"]),  # ~126 productos
     "Nstore": lambda: fenicio("Nstore", "https://nstore.com.uy", ["catalogo"]),  # ~800 productos
-    "Midea": lambda: fenicio("Midea", "https://www.tiendamidea.com.uy", ["catalogo"]),  # ~120 productos
-    "Nicolini": lambda: fenicio("Nicolini", "https://nicolini.uy", ["catalogo"]),  # ~220 productos
-    "Joacamar": lambda: fenicio("Joacamar", "https://joacamar.com.uy", ["catalogo"]),  # ~470 productos
     "Barraca Europa": lambda: fenicio("Barraca Europa", "https://www.barracaeuropa.com.uy", ["catalogo"]),  # ~550 productos
     "Tienda Cabal": lambda: fenicio("Tienda Cabal", "https://tiendacabal.com.uy", ["catalogo"]),  # ~370 productos
-    "Magic Center": lambda: fenicio("Magic Center", "https://magiccenter.com.uy", ["catalogo"]),  # ~570 productos
     "Compupel": lambda: fenicio("Compupel", "https://www.compupel.com.uy", ["catalogo"]),  # ~460 productos
-    "Claro Uruguay": lambda: fenicio("Claro Uruguay", "https://tienda.claro.com.uy", ["catalogo"]),  # ~80 productos
     "X Uruguay": lambda: fenicio("X Uruguay", "https://www.xuruguay.com.uy", ["catalogo"], max_paginas=320),  # ~3.500 productos
-    "Casa Santiago Miguel": lambda: fenicio("Casa Santiago Miguel", "https://casasantiagomiguel.uy", ["catalogo"]),  # ~900 productos
-    "Electro Uruguay": lambda: fenicio("Electro Uruguay", "https://www.electrouruguay.com", ["catalogo"]),  # ~710 productos
 }
