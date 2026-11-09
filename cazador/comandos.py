@@ -20,23 +20,30 @@ import requests
 
 from . import telegram
 from .nucleo import Historial, fmt
-from .tiendas import TIENDAS, _get, fenicio, shopify, woocommerce
+from . import tiendas as _T
+from .tiendas import TIENDAS, _get, fenicio
+
+shopify = getattr(_T, "shopify", None)
+woocommerce = getattr(_T, "woocommerce", None)
 
 CONTROL = pathlib.Path("estado/control.json")
 TASA_USD = 40.0  # para comparar precios en pesos con precios en dólares
 MAX_RESULTADOS = 10
 FRESCO = 3 * 3600  # solo productos vistos en las últimas 3 horas (si no, la tienda dejó de leerse)
 MODOS = {"barato", "oferta", "historico"}
+EXIGE_CATEGORIAS = False  # True en los bots que no deben leer el catálogo entero de una tienda Fenicio
+NOTA_AYUDA = "No incluye Mercado Libre ni Tienda Inglesa (bloquean las conexiones desde GitHub)."
 
 AYUDA = (
     "🤖 <b>Comandos</b>\n"
     "<code>/buscar tv 55</code> → las 10 más baratas\n"
     "<code>/buscar tv 55 oferta</code> → las que más bajaron de precio\n"
     "<code>/buscar tv 55 historico</code> → las que están en su precio más bajo registrado\n"
-    "<code>/agregar https://tienda.com.uy</code> → suma una tienda (si sé leerla)\n"
+    "<code>/agregar https://tienda.com.uy</code> → suma una tienda (si sé leerla). Con "
+    "<code>cats=perfumeria,maquillaje</code> al final, solo esas secciones\n"
     "<code>/quitar nombre</code> → saca una tienda (o la pausa); <code>/reanudar nombre</code> la vuelve a activar\n"
     "<code>/lista</code> → tiendas que se revisan\n\n"
-    "No incluye Mercado Libre ni Tienda Inglesa (bloquean las conexiones desde GitHub)."
+    + NOTA_AYUDA
 )
 
 
@@ -60,10 +67,11 @@ def guardar_control(c: dict) -> None:
 def _lector(extra: dict):
     nombre, base, tipo = extra["nombre"], extra["base"], extra["tipo"]
     if tipo == "fenicio":
-        return lambda: fenicio(nombre, base, ["catalogo"], max_paginas=400)
-    if tipo == "shopify":
+        cats = extra.get("cats") or ["catalogo"]
+        return lambda: fenicio(nombre, base, cats, max_paginas=400)
+    if tipo == "shopify" and shopify:
         return lambda: shopify(nombre, base)
-    if tipo == "woocommerce":
+    if tipo == "woocommerce" and woocommerce:
         return lambda: woocommerce(nombre, base, max_paginas=60)
     raise ValueError(tipo)
 
@@ -207,18 +215,20 @@ def detectar(url: str) -> tuple[str, str] | None:
             return "fenicio", base
     except requests.RequestException:
         pass
-    try:
-        r = _get(f"{base}/products.json", params={"limit": 1})
-        if r.status_code == 200 and isinstance(r.json().get("products"), list):
-            return "shopify", base
-    except (requests.RequestException, ValueError):
-        pass
-    try:
-        r = _get(f"{base}/wp-json/wc/store/v1/products", params={"per_page": 1})
-        if r.status_code == 200 and isinstance(r.json(), list):
-            return "woocommerce", base
-    except (requests.RequestException, ValueError):
-        pass
+    if shopify:
+        try:
+            r = _get(f"{base}/products.json", params={"limit": 1})
+            if r.status_code == 200 and isinstance(r.json().get("products"), list):
+                return "shopify", base
+        except (requests.RequestException, ValueError):
+            pass
+    if woocommerce:
+        try:
+            r = _get(f"{base}/wp-json/wc/store/v1/products", params={"per_page": 1})
+            if r.status_code == 200 and isinstance(r.json(), list):
+                return "woocommerce", base
+        except (requests.RequestException, ValueError):
+            pass
     return None
 
 
@@ -228,27 +238,36 @@ def _nombre_de(base: str) -> str:
 
 
 def agregar(arg: str) -> str:
-    partes = arg.split()
+    partes = [x for x in arg.split() if not x.lower().startswith("cats=")]
+    cats = [x.strip("/ ") for a in arg.split() if a.lower().startswith("cats=") for x in a[5:].split(",") if x.strip("/ ")]
     if not partes:
         return "Escribí la dirección, por ejemplo: <code>/agregar https://nstore.com.uy</code>"
     c = cargar_control()
     hallada = detectar(partes[0])
     if not hallada:
         return ("No pude leer esa tienda automáticamente: no reconozco su plataforma "
-                "(sé leer Fenicio, Shopify y WooCommerce). Mandásela a Claude y la armamos a mano.")
+                "(sé leer Fenicio" + (", Shopify" if shopify else "") + (" y WooCommerce" if woocommerce else "") + "). "
+                "Mandásela a Claude y la armamos a mano.")
     tipo, base = hallada
+    if tipo == "fenicio" and EXIGE_CATEGORIAS and not cats:
+        return ("Es una tienda Fenicio. En este bot hay que elegir las secciones para no traer todo el catálogo: "
+                f"<code>/agregar {html.escape(base)} cats=seccion1,seccion2</code>. "
+                "Los nombres están en la dirección de cada sección (por ejemplo tienda.com.uy/<b>perfumeria</b>).")
     if any(e["base"] == base for e in c["extra"]):
         return f"Esa tienda ya está agregada ({html.escape(base)})."
     nombre = " ".join(partes[1:]) or _nombre_de(base)
     if nombre.casefold() in {k.casefold() for k in tiendas_activas()}:
         return f"Ya hay una tienda llamada <b>{html.escape(nombre)}</b>. Probá con otro nombre: <code>/agregar {html.escape(base)} OtroNombre</code>"
+    extra = {"nombre": nombre, "base": base, "tipo": tipo}
+    if cats and tipo == "fenicio":
+        extra["cats"] = cats
     try:
-        prods = _lector({"nombre": nombre, "base": base, "tipo": tipo})()
+        prods = _lector(extra)()
     except Exception as e:  # noqa: BLE001
         return f"Reconocí la plataforma ({tipo}) pero falló la lectura: {html.escape(repr(e)[:150])}"
     if not prods:
         return f"Reconocí la plataforma ({tipo}) pero no encontré productos con precio."
-    c["extra"].append({"nombre": nombre, "base": base, "tipo": tipo})
+    c["extra"].append(extra)
     guardar_control(c)
     monedas = sorted({p.moneda for p in prods})
     return (f"✅ <b>{html.escape(nombre)}</b> agregada ({tipo}): {len(prods)} productos en {'/'.join(monedas)}.\n"
