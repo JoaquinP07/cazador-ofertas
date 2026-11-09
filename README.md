@@ -31,6 +31,17 @@ Revisa cada 10 minutos las secciones de tecnología y electrodomésticos de vari
 | Net PC | Notebooks, PC gamer, monitores y telefonía (~120, en dólares) |
 | GameStop UY | Videojuegos, consolas, tecnología y accesorios (~830) |
 | Zonalaptop | Notebooks y accesorios (~126) |
+| Midea | Tienda oficial Midea: aires, electrodomésticos (~120) |
+| Nicolini | Electrodomésticos y tecnología (~220) |
+| Joacamar | Electrodomésticos y hogar (~470) |
+| Barraca Europa | Electrodomésticos, hogar y construcción (~550) |
+| Tienda Cabal | Electrodomésticos y tecnología (~370) |
+| Magic Center | Electro y tecnología (~570) |
+| Compupel | Computación e informática (~460) |
+| Claro Uruguay | Celulares y accesorios de la tienda de Claro (~80) |
+| X Uruguay | Gaming y entretenimiento, catálogo completo (~3.500) |
+| Casa Santiago Miguel | Electrodomésticos y hogar (~900) |
+| Electro Uruguay | Electrodomésticos (~710) |
 | Nstore | Tecnología: TV, audio, gaming, accesorios y más (~800) |
 | Tienda Electrónica UY | ❌ muestra los precios solo a usuarios registrados |
 | Tienda Inglesa | ❌ bloquea las conexiones desde GitHub |
